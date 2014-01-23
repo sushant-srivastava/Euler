@@ -1,0 +1,84 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace ConsoleApplication12
+{
+    class Program
+    {
+        class Node
+        {
+            public Node(int val)
+            {
+                x = val;
+            }
+            public int x;
+            public Node left;
+            public Node right;
+            public int getVal()
+            {
+                if (left == null && right == null)
+                    return x;
+                if (left.getVal() > right.getVal())
+                {
+                    return x + left.getVal();
+                }
+                else
+                {
+                    return x + right.getVal();
+                }
+            }
+            public int getValFast()
+            {
+                return 0;
+            }
+        }
+        static void Main(string[] args)
+        {
+            Dictionary<string, Node> positionMap = new Dictionary<string, Node>();
+            string s = File.ReadAllText(@"C:\temp\triangle.txt");
+            int i = 0;
+            foreach (string str in s.Split(new char[]{'\n'},StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (!str.Contains(' '))
+                {
+                    Node root = new Node(int.Parse(str));
+                    positionMap["0 0"] = root;
+                    continue;
+                }
+                i++;
+                int j=0;
+                foreach (string substr in str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    Node node = new Node(int.Parse(substr));
+                    positionMap[i.ToString() +" "+ (j++).ToString()] = node;
+                }
+            }
+            foreach (KeyValuePair<string, Node> kvNode in positionMap)
+            {
+                if (kvNode.Key.Split(' ')[0]=="99")
+                    continue;
+                kvNode.Value.left = positionMap[(int.Parse(kvNode.Key.Split(' ')[0]) + 1).ToString() + " " + kvNode.Key.Split(' ')[1]];
+                kvNode.Value.right = positionMap[(int.Parse(kvNode.Key.Split(' ')[0]) + 1).ToString() + " " + (int.Parse(kvNode.Key.Split(' ')[1]) + 1).ToString()];
+                    
+            }
+            
+            for (int j = 99; j >= 1; j--)
+            {
+                for (int k = j; k >= 1; k--)
+                {
+                    string current = (j - 1).ToString() + " " + (k-1).ToString();
+                    string right = j.ToString() + " " + (k ).ToString();
+                    string left = j.ToString() + " " + (k-1).ToString();
+                    positionMap[current].x = positionMap[current].x + (positionMap[left].x > positionMap[right].x ? positionMap[left].x : positionMap[right].x);
+                }
+            }
+
+            Console.WriteLine(positionMap["0 0"].x);
+            Console.ReadKey();
+
+        }
+    }
+}
