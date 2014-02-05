@@ -1,0 +1,26 @@
+using System;
+using System.Linq;
+
+namespace ConsoleApplication15
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int i = 1000;
+            do
+            {
+                if ((i.ToString().ToCharArray().OrderBy(x => x).SequenceEqual((2 * i).ToString().ToCharArray().OrderBy(x => x)))
+                    && (i.ToString().ToCharArray().OrderBy(x => x).SequenceEqual((3 * i).ToString().ToCharArray().OrderBy(x => x)))
+                    && (i.ToString().ToCharArray().OrderBy(x => x).SequenceEqual((4 * i).ToString().ToCharArray().OrderBy(x => x)))
+                    && (i.ToString().ToCharArray().OrderBy(x => x).SequenceEqual((5 * i).ToString().ToCharArray().OrderBy(x => x)))
+                    && (i.ToString().ToCharArray().OrderBy(x => x).SequenceEqual((6 * i).ToString().ToCharArray().OrderBy(x => x))))
+                    break;
+                i++;
+            }
+            while (true);
+            Console.WriteLine(i);
+            Console.ReadKey();
+        }
+    }
+}
