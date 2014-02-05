@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+
+
+namespace ConsoleApplication13
+{
+    class Program
+    {
+        public static string s = "0123";
+        static void Main(string[] args)
+        {
+            List<string> results = combo("0123x4=56789");
+            results.Sort();
+            //results.ForEach(x => Console.WriteLine(x));
+            Console.WriteLine(results[999999]);
+            Console.ReadKey();
+        }                      
+        static List<string> combo(string t)
+        {
+            List<string> temp = new List<string>();
+            if (t.Length == 1)
+            {
+                temp.Add(t);               
+            }
+            else
+            {
+                char[] arr = t.ToCharArray();
+                for (int i = 0; i < t.Length; i++)
+                {                    
+                    char c = arr[i];
+                    arr[i] = arr[0];
+                    arr[0] = c;
+                    string str = new string(arr);
+                    List<string> temp2 = combo(str.Substring(1));
+                    foreach (string s in temp2)
+                    {
+                        temp.Add(str[0] + s);
+                    }
+                }
+            }
+            return temp;
+        }
+    }
+}
