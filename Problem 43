@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+
+
+namespace ConsoleApplication13
+{
+    class Program
+    {
+        public static string s = "0123";
+        static void Main(string[] args)
+        {
+            BigInteger sum = 0;
+            List<string> results = combo("0123456789");
+            foreach (string x in results)
+            {
+                sum += ((int.Parse(x.Substring(1, 3)) % 2 == 0) && (int.Parse(x.Substring(2, 3)) % 3 == 0) && (int.Parse(x.Substring(3, 3)) % 5 == 0) && (int.Parse(x.Substring(4, 3)) % 7 == 0) && (int.Parse(x.Substring(5, 3)) % 11 == 0) && (int.Parse(x.Substring(6, 3)) % 13 == 0) && (int.Parse(x.Substring(7, 3)) % 17 == 0)) ? BigInteger.Parse(x) : 0;
+            }
+            //results.ForEach(x => Console.WriteLine(x));
+            Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+        static List<string> combo(string t)
+        {
+            List<string> temp = new List<string>();
+            if (t.Length == 1)
+            {
+                temp.Add(t);
+            }
+            else
+            {
+                char[] arr = t.ToCharArray();
+                for (int i = 0; i < t.Length; i++)
+                {
+                    char c = arr[i];
+                    arr[i] = arr[0];
+                    arr[0] = c;
+                    string str = new string(arr);
+                    List<string> temp2 = combo(str.Substring(1));
+                    foreach (string s in temp2)
+                    {
+                        temp.Add(str[0] + s);
+                    }
+                }
+            }
+            return temp;
+        }
+    }
+}
