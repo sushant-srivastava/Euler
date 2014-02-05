@@ -1,0 +1,22 @@
+using System;
+using System.Linq;
+
+namespace ConsoleApplication15
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int sum = 0;
+            for (int i = 0; i < 1000000; i++)
+            {
+                if (i.ToString().SequenceEqual(i.ToString().Reverse()) && Convert.ToString(i, 2).SequenceEqual(Convert.ToString(i, 2).Reverse()))
+                {
+                    sum += i;
+                }
+            }
+            Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+    }
+}
